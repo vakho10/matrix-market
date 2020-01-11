@@ -55,10 +55,4 @@ public class Size implements IPart {
 	public String asText() {
 		return numberOfRows + " " + numberOfColumns + " " + numberOfEntries;
 	}
-	
-	@Override
-	public String toString() {
-		return "Size [numberOfRows=" + numberOfRows + ", numberOfColumns=" + numberOfColumns + ", numberOfEntries="
-				+ numberOfEntries + "]";
-	}
 }

@@ -32,9 +32,4 @@ public class Comments implements IPart {
 				.map(line -> "%" + line) //
 				.collect(Collectors.joining("\n"));
 	}
-
-	@Override
-	public String toString() {
-		return "Comments [lines=" + lines + "]";
-	}
 }

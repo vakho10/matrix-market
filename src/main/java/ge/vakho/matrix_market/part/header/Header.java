@@ -73,9 +73,4 @@ public class Header implements IPart {
 		return "%%MatrixMarket " + object.getTextName() + " " + format.getTextName() + " " + field.getTextName() + " "
 				+ symmetry.getTextName();
 	}
-
-	@Override
-	public String toString() {
-		return "Header [object=" + object + ", format=" + format + ", field=" + field + ", symmetry=" + symmetry + "]";
-	}
 }

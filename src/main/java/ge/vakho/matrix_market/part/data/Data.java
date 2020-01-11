@@ -61,11 +61,6 @@ public class Data implements IPart {
 		public String asText() {
 			return rowNumber + " " + columnNumber + " " + value;
 		}
-
-		@Override
-		public String toString() {
-			return "Entry [rowNumber=" + rowNumber + ", columnNumber=" + columnNumber + ", value=" + value + "]";
-		}
 	}
 
 	public static Data parseFrom(List<String> dataLines) {
@@ -81,10 +76,5 @@ public class Data implements IPart {
 		return entries.parallelStream() //
 				.map(entry -> entry.asText()) //
 				.collect(Collectors.joining("\n"));
-	}
-
-	@Override
-	public String toString() {
-		return "Data [entries=" + entries + "]";
 	}
 }
