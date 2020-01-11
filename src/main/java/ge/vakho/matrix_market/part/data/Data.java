@@ -5,10 +5,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ge.vakho.matrix_market.part.IPart;
+import ge.vakho.matrix_market.part.size.Size;
 
 public class Data implements IPart {
 
+	protected Size size;
 	protected List<Entry> entries = new ArrayList<>();
+
+	public Size getSize() {
+		return size;
+	}
+
+	public void setSize(Size size) {
+		this.size = size;
+	}
 
 	public List<Entry> getEntries() {
 		return entries;
@@ -65,16 +75,20 @@ public class Data implements IPart {
 
 	public static Data parseFrom(List<String> dataLines) {
 		Data data = new Data();
-		for (String dataLine : dataLines) {
-			data.entries.add(Entry.parseFrom(dataLine));
+		data.size = Size.parseFrom(dataLines.get(0));
+		for (int i = 1; i < dataLines.size(); i++) {
+			data.entries.add(Entry.parseFrom(dataLines.get(i)));
 		}
 		return data;
 	}
 
 	@Override
 	public String asText() {
-		return entries.parallelStream() //
-				.map(entry -> entry.asText()) //
+		
+		String entriesString = entries.parallelStream().map(entry -> entry.asText()) //
+				.collect(Collectors.joining("\n"));
+		
+		return List.of(size.asText(), entriesString).parallelStream() //
 				.collect(Collectors.joining("\n"));
 	}
 }

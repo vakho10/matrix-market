@@ -13,14 +13,36 @@ import ge.vakho.matrix_market.part.IPart;
 import ge.vakho.matrix_market.part.comments.Comments;
 import ge.vakho.matrix_market.part.data.Data;
 import ge.vakho.matrix_market.part.header.Header;
-import ge.vakho.matrix_market.part.size.Size;
 
 public class MatrixMarket implements IPart {
 
 	protected Header header;
 	protected Comments comments;
-	protected Size size;
 	protected Data data;
+
+	public Header getHeader() {
+		return header;
+	}
+
+	public void setHeader(Header header) {
+		this.header = header;
+	}
+
+	public Comments getComments() {
+		return comments;
+	}
+
+	public void setComments(Comments comments) {
+		this.comments = comments;
+	}
+
+	public Data getData() {
+		return data;
+	}
+
+	public void setData(Data data) {
+		this.data = data;
+	}
 
 	public static MatrixMarket parseFrom(Path mtxFile) throws IOException {
 
@@ -42,28 +64,21 @@ public class MatrixMarket implements IPart {
 			}
 			mm.comments = Comments.parseFrom(commentLines);
 
-			// Size line
-			mm.size = Size.parseFrom(line);
-
-			// Data lines
+			// Size line and data lines
 			List<String> dataLines = new ArrayList<>();
+			dataLines.add(line);
 			while ((line = raf.readLine()) != null && !line.trim().isEmpty()) {
 				dataLines.add(line);
 			}
 			mm.data = Data.parseFrom(dataLines);
-
+			
 			return mm;
 		}
 	}
 
 	@Override
 	public String asText() {
-		return List.of(header.asText(), comments.asText(), size.asText(), data.asText()).parallelStream() //
+		return List.of(header.asText(), comments.asText(), data.asText()).parallelStream() //
 				.collect(Collectors.joining("\n"));
-	}
-
-	@Override
-	public String toString() {
-		return "MatrixMarket [header=" + header + ", comments=" + comments + ", size=" + size + ", data=" + data + "]";
 	}
 }

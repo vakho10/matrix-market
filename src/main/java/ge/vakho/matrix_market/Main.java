@@ -33,6 +33,7 @@ public class Main {
 		// Parse from file
 		MatrixMarket mm = MatrixMarket.parseFrom(tmpFile);
 		System.out.println(mm);
+//		System.out.println(MMUtils.isPositiveDefinite(mm));
 		
 		// Write to some temporary file...
 		Path outputTmpFile = Files.createTempFile("mm-", ".mtx");
