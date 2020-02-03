@@ -1,7 +1,7 @@
 package ge.vakho.matrix_market.part.header;
 
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import static com.google.common.base.Preconditions.checkArgument;
+import com.google.common.base.Strings;
 
 import ge.vakho.matrix_market.part.IPart;
 import ge.vakho.matrix_market.part.header.enums.Field;
@@ -56,6 +56,8 @@ public class Header implements IPart {
 	}
 
 	public static Header parseFrom(String headerString) {
+
+		checkArgument(!Strings.isNullOrEmpty(headerString), "Expected non-empty header string");
 
 		// TODO Write checks for valid header string!
 		String[] headerStrings = headerString.split("\\s+");

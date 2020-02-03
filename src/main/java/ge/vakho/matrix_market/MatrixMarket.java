@@ -1,7 +1,10 @@
 package ge.vakho.matrix_market;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,22 +47,22 @@ public class MatrixMarket implements IPart {
 		this.data = data;
 	}
 
-	public static MatrixMarket parseFrom(Path mtxFile) throws IOException {
+	public static MatrixMarket parseFrom(InputStream inputStream) throws IOException {
 
-		try (InputStream is = Files.newInputStream(mtxFile);
-				RandomAccessFile raf = new RandomAccessFile(mtxFile.toFile(), "r")) {
+		try (InputStreamReader isr = new InputStreamReader(inputStream);
+				BufferedReader br = new BufferedReader(isr)) {
 
 			MatrixMarket mm = new MatrixMarket();
 
 			// Header
-			String headerLine = raf.readLine();
+			String headerLine = br.readLine();
 			mm.header = Header.parseFrom(headerLine);
 
 			// Comments
 			// TODO skip empty lines
 			String line;
 			List<String> commentLines = new ArrayList<>();
-			while ((line = raf.readLine().trim()).startsWith("%")) {
+			while ((line = br.readLine().trim()).startsWith("%")) {
 				commentLines.add(line);
 			}
 			mm.comments = Comments.parseFrom(commentLines);
@@ -67,7 +70,7 @@ public class MatrixMarket implements IPart {
 			// Size line and data lines
 			List<String> dataLines = new ArrayList<>();
 			dataLines.add(line);
-			while ((line = raf.readLine()) != null && !line.trim().isEmpty()) {
+			while ((line = br.readLine()) != null && !line.trim().isEmpty()) {
 				dataLines.add(line);
 			}
 			mm.data = Data.parseFrom(dataLines);
